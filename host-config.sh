@@ -67,10 +67,10 @@ sudo apt-get install -y \
 # chronyc tracking
 
 #install docker
-#printf "***************************************\n"
-#printf "** Installing Docker                 **\n"
-#printf "***************************************\n"
-#
+printf "***************************************\n"
+printf "** Installing Docker                 **\n"
+printf "***************************************\n"
+
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -86,13 +86,12 @@ printf "***************************************\n"
 printf "** Building the Node                 **\n"
 printf "***************************************\n"
 
+curl -sS -o guild-deploy.sh https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/guild-deploy.sh
+chmod 755 guild-deploy.sh
 
-docker pull cardanocommunity/cardano-node:stage1
-docker pull cardanocommunity/cardano-node:stage2
-docker pull cardanocommunity/cardano-node:stage3
-docker pull cardanocommunity/cardano-node:latest
+./guild-deploy.sh -s pdlcx
 
-sudo docker network create --subnet=172.18.0.0/16 ezNet
+docker network create --subnet=172.18.0.0/16 ezNet
 
 rm dockerfile_stage*
 wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/files/docker/node/dockerfile_stage1
@@ -102,7 +101,3 @@ wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/
 sudo docker build -t cardanocommunity/cardano-node:stage1 - < dockerfile_stage1
 sudo docker build -t cardanocommunity/cardano-node:stage2 - < dockerfile_stage2
 sudo docker build -t cardanocommunity/cardano-node:stage3 - < dockerfile_stage3
-
-curl -sS -o guild-deploy.sh https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/guild-deploy.sh
-chmod 700 guild-deploy.sh
-#./guild-deploy.sh -sf
