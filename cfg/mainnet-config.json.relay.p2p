@@ -1,5 +1,4 @@
 {
-  "TestEnableDevelopmentHardForkEras": true,
   "TestEnableDevelopmentNetworkProtocols": true,
   "EnableP2P": true,
   "MaxConcurrencyBulkSync": 2,
