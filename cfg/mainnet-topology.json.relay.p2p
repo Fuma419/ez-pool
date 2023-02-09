@@ -1,0 +1,37 @@
+{
+  "LocalRoots": {
+    "groups": [
+      {
+        "localRoots": {
+          "accessPoints": [
+            {
+              "address": "adaboy-gv9e3q.gleeze.com",
+              "port": 6000
+            },
+	          {
+              "address": "adaboy-n28e0q.kozow.com",
+              "port": 6000
+            }
+          ],
+          "advertise": false
+        },
+        "valency": 2
+      }
+    ]
+  },
+  "PublicRoots": [
+    {
+      "publicRoots" : {
+        "accessPoints": [
+          {
+            "address": "relays-new.cardano-mainnet.iohk.io",
+            "port": 3001
+          }
+        ],
+        "advertise": false
+      },
+      "valency": 2
+    }
+  ],
+  "useLedgerAfterSlot": 0
+}
