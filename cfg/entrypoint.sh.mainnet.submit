@@ -32,6 +32,7 @@ customise () {
 find /opt/cardano/cnode/files -name "*config*.json" -print0 | xargs -0 sed -i 's/127.0.0.1/0.0.0.0/g' > /dev/null 2>&1 
 grep -i ENABLE_CHATTR /opt/cardano/cnode/scripts/cntools.sh >/dev/null && sed -i 's/#ENABLE_CHATTR=true/ENABLE_CHATTR=true/g' /opt/cardano/cnode/scripts/cntools.sh > /dev/null 2>&1
 grep -i ENABLE_DIALOG /opt/cardano/cnode/scripts/cntools.sh >/dev/null && sed -i 's/ENABLE_DIALOG=true/ENABLE_DIALOG=false/' /opt/cardano/cnode/scripts/cntools.sh >> /opt/cardano/cnode/scripts/cntools.sh
+grep -i CUSTOM_PEERS /opt/cardano/cnode/scripts/topologyUpdater.s >/dev/null && sed -i 's|#CUSTOM_PEERS="None"|#CUSTOM_PEERS="relays-new.cardano-mainnet.iohk.io,3001,2|your_IP,your_PORT"|g' /opt/cardano/cnode/scripts/topologyUpdater.s > /dev/null 2>&1
 grep -i SUBMITAPIBIN /opt/cardano/cnode/scripts/submitapi.sh >/dev/null && sed -i 's|#SUBMITAPIBIN="${HOME}"/.cabal/bin/cardano-submit-api|SUBMITAPIBIN=/usr/local/bin/cardano-submit-api|g' /opt/cardano/cnode/scripts/submitapi.sh > /dev/null 2>&1
 grep -i HOSTADDR /opt/cardano/cnode/scripts/submitapi.sh >/dev/null && sed -i 's/#HOSTADDR=127.0.0.1/HOSTADDR=0.0.0.0/g' /opt/cardano/cnode/scripts/submitapi.sh > /dev/null 2>&1
 grep -i HOSTPORT /opt/cardano/cnode/scripts/submitapi.sh >/dev/null && sed -i 's/#HOSTPORT=8090/HOSTPORT=8090/g' /opt/cardano/cnode/scripts/submitapi.sh > /dev/null 2>&1

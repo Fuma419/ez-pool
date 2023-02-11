@@ -19,11 +19,11 @@ sudo nano /etc/ufw/after.rules
 -A DOCKER-USER -j DROP -p udp -m udp --dport 0:32767 -d 172.16.0.0/12
 
 -A DOCKER-USER -j RETURN
-COMMIT
+
 # END UFW AND DOCKER
 
 sudo systemctl restart ufw
-
+sudo ufw status
 
 sudo docker container inspect volcy_1
 
