@@ -53,7 +53,7 @@ docker run -dit \
 --security-opt=no-new-privileges \
 --cpus=3 \
 --net ezNet \
---ip 172.18.0.4 \
+--ip 172.18.0.7 \
 --entrypoint=/opt/cardano/cnode/files/entrypoint.sh \
 -e NETWORK=preprod \
 -e TOPOLOGY="/opt/cardano/cnode/files/$NETWORK-topology.json" \
@@ -81,7 +81,7 @@ docker run -dit \
 --memory=25g \
 --cpus=5 \
 --net ezNet \
---ip 172.18.0.3 \
+--ip 172.18.0.8 \
 --entrypoint=/opt/cardano/cnode/files/entrypoint.sh \
 -e CPU_CORES=4 \
 -e NETWORK=mainnet \
@@ -110,7 +110,7 @@ docker run -dit \
 --memory=25g \
 --cpus=5 \
 --net ezNet \
---ip 172.18.0.6 \
+--ip 172.18.0.9 \
 --entrypoint=/opt/cardano/cnode/files/entrypoint.sh \
 -e NETWORK=mainnet \
 -e TOPOLOGY="/opt/cardano/cnode/files/$NETWORK-topology.json" \
@@ -130,7 +130,7 @@ cp -n cfg/entrypoint.sh.$NETWORK.$NODE_TYPE /opt/cardano/$NODE_NAME/files/entryp
 cp -n cfg/topology.json.$NETWORK.$NODE_TYPE cfg/topology.json.$NETWORK.$NODE_TYPE.$NODE_NAME
 cp cfg/topology.json.$NETWORK.$NODE_TYPE.$NODE_NAME /opt/cardano/$NODE_NAME/files/$NETWORK-topology.json
 cp -n cfg/config.json.$NETWORK.$NODE_TYPE cfg/config.json.$NETWORK.$NODE_TYPE.$NODE_NAME
-cp cfg/config.json.$NETWORK.$NODE_TYPE /opt/cardano/$NODE_NAME/files/$NETWORK-config.json
+cp cfg/config.json.$NETWORK.$NODE_TYPE.$NODE_NAME /opt/cardano/$NODE_NAME/files/$NETWORK-config.json
 
 sudo chmod +x nodes/$NODE_NAME
 sudo ./nodes/$NODE_NAME
