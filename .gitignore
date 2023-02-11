@@ -1,0 +1,5 @@
+cfg/config.json.*.*.*
+cfg/topology.json.*.*.*
+dockerfile_stage*
+guild-deploy.sh
+nodes/
