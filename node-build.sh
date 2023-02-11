@@ -11,7 +11,7 @@ POOL_NAME=$4
 ###################################
 # To change the db path #
 ###################################
-DB_DIR=/path/to/your/$NODE_NAME/db
+DB_DIR=/opt/cardano/$NODE_NAME/db
 
 
 
@@ -46,7 +46,6 @@ if [ $NETWORK == "preprod" ] && [ "$NODE_TYPE" == "relay" ]; then
 
 printf "${green}[Info] Creating preprod relay node${clear}\n"
 
-cp cfg/entrypoint.sh.$NETWORK.submit /opt/cardano/$NODE_NAME/files/entrypoint.sh
 
 cat > nodes/$NODE_NAME << EOF
 docker run -dit \
@@ -63,13 +62,10 @@ docker run -dit \
 -p 3000:6000 \
 -p 12799:12798 \
 -p 8091:8090 \
--v /opt/cardano/$NODE_NAME/db:/opt/cardano/cnode/db \
+-v $DB_DIR:/opt/cardano/cnode/db \
 -v /opt/cardano/$NODE_NAME/files:/opt/cardano/cnode/files \
 cardanocommunity/cardano-node
 EOF
-
-cp cfg/$NETWORK-topology.json.relay.p2p /opt/cardano/$NODE_NAME/files/$NETWORK-topology.json
-cp cfg/$NETWORK-config.json.relay.p2p /opt/cardano/$NODE_NAME/files/$NETWORK-config.json
 
 fi
 
@@ -77,13 +73,13 @@ if [ $NETWORK == "mainnet" ] && [ "$NODE_TYPE" == "relay" ]; then
 
 printf "${green}[Info] Creating mainnet relay node${clear}\n"
 
-cp cfg/entrypoint.sh.$NETWORK.submit /opt/cardano/$NODE_NAME/files/entrypoint.sh
 
 cat > nodes/$NODE_NAME << EOF
 docker run -dit \
 --name $NODE_NAME \
 --security-opt=no-new-privileges \
 --memory=25g \
+--cpus=5 \
 --net ezNet \
 --ip 172.18.0.3 \
 --entrypoint=/opt/cardano/cnode/files/entrypoint.sh \
@@ -95,7 +91,7 @@ docker run -dit \
 -p 6000:6000 \
 -p 12798:12798 \
 -p 8090:8090 \
--v /opt/cardano/$NODE_NAME/db:/opt/cardano/cnode/db \
+-v $DB_DIR:/opt/cardano/cnode/db \
 -v /opt/cardano/$NODE_NAME/files:/opt/cardano/cnode/files \
 cardanocommunity/cardano-node
 EOF
@@ -106,14 +102,13 @@ if [ $NETWORK == "mainnet" ] && [ "$NODE_TYPE" == "dev" ]; then
 
 printf "${green}[Info] Creating mainnet relay node${clear}\n"
 #install -d -m 0755 -o <your_user> -g <your_group> $DB_DIR
-cp cfg/entrypoint.sh.$NETWORK.submit /opt/cardano/$NODE_NAME/files/entrypoint.sh
 
 cat > nodes/$NODE_NAME << EOF
 docker run -dit \
 --name $NODE_NAME \
 --security-opt=no-new-privileges \
 --memory=25g \
---cpus=4 \
+--cpus=5 \
 --net ezNet \
 --ip 172.18.0.6 \
 --entrypoint=/opt/cardano/cnode/files/entrypoint.sh \
@@ -130,8 +125,10 @@ EOF
 
 fi
 
-cp cfg/$NETWORK-topology.json.relay.p2p /opt/cardano/$NODE_NAME/files/$NETWORK-topology.json
-cp cfg/$NETWORK-config.json.relay.p2p /opt/cardano/$NODE_NAME/files/$NETWORK-config.json
+cp cfg/entrypoint.sh.$NETWORK.submit /opt/cardano/$NODE_NAME/files/entrypoint.sh
+cp -n cfg/$NETWORK-topology.json.$NODE_TYPE cfg/$NETWORK-topology.json.$NODE_TYPE.$NODE_NAME
+cp cfg/$NETWORK-topology.json.$NODE_TYPE.$NODE_NAME /opt/cardano/$NODE_NAME/files/$NETWORK-topology.json
+cp cfg/$NETWORK-config.json.$NODE_TYPE /opt/cardano/$NODE_NAME/files/$NETWORK-config.json
 
 sudo chmod +x nodes/$NODE_NAME
 sudo ./nodes/$NODE_NAME
