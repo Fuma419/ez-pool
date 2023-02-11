@@ -91,7 +91,7 @@ chmod 755 guild-deploy.sh
 
 ./guild-deploy.sh -s pdlcx
 
-docker network create --subnet=172.18.0.0/16 ezNet
+docker network create --subnet=172.18.0.0/16 hodlNet
 
 rm dockerfile_stage*
 wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/files/docker/node/dockerfile_stage1

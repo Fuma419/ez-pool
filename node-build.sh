@@ -52,7 +52,7 @@ docker run -dit \
 --name $NODE_NAME \
 --security-opt=no-new-privileges \
 --cpus=3 \
---net ezNet \
+--net hodlNet \
 --ip 172.18.0.7 \
 --entrypoint=/opt/cardano/cnode/files/entrypoint.sh \
 -e NETWORK=preprod \
@@ -80,7 +80,7 @@ docker run -dit \
 --security-opt=no-new-privileges \
 --memory=25g \
 --cpus=5 \
---net ezNet \
+--net hodlNet \
 --ip 172.18.0.8 \
 --entrypoint=/opt/cardano/cnode/files/entrypoint.sh \
 -e CPU_CORES=4 \
@@ -109,7 +109,7 @@ docker run -dit \
 --security-opt=no-new-privileges \
 --memory=25g \
 --cpus=5 \
---net ezNet \
+--net hodlNet \
 --ip 172.18.0.9 \
 --entrypoint=/opt/cardano/cnode/files/entrypoint.sh \
 -e NETWORK=mainnet \
