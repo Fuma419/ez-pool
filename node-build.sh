@@ -125,10 +125,12 @@ EOF
 
 fi
 
-cp cfg/entrypoint.sh.$NETWORK.submit /opt/cardano/$NODE_NAME/files/entrypoint.sh
-cp -n cfg/$NETWORK-topology.json.$NODE_TYPE cfg/$NETWORK-topology.json.$NODE_TYPE.$NODE_NAME
-cp cfg/$NETWORK-topology.json.$NODE_TYPE.$NODE_NAME /opt/cardano/$NODE_NAME/files/$NETWORK-topology.json
-cp cfg/$NETWORK-config.json.$NODE_TYPE /opt/cardano/$NODE_NAME/files/$NETWORK-config.json
+cp -n cfg/entrypoint.sh.$NETWORK.$NODE_TYPE /opt/cardano/$NODE_NAME/files/entrypoint.sh
+
+cp -n cfg/topology.json.$NETWORK.$NODE_TYPE cfg/topology.json.$NETWORK.$NODE_TYPE.$NODE_NAME
+cp cfg/topology.json.$NETWORK.$NODE_TYPE.$NODE_NAME /opt/cardano/$NODE_NAME/files/$NETWORK-topology.json
+cp -n cfg/config.json.$NETWORK.$NODE_TYPE cfg/config.json.$NETWORK.$NODE_TYPE.$NODE_NAME
+cp cfg/config.json.$NETWORK.$NODE_TYPE /opt/cardano/$NODE_NAME/files/$NETWORK-config.json
 
 sudo chmod +x nodes/$NODE_NAME
 sudo ./nodes/$NODE_NAME
