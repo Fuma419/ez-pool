@@ -59,7 +59,6 @@ docker run -dit \
 -e CPU_CORES=2 \
 -p 5000:6000 \
 -p 11798:12798 \
--p 8091:8090 \
 -v $DB_DIR:/opt/cardano/cnode/db \
 -v /opt/cardano/$NODE_NAME/files:/opt/cardano/cnode/files \
 cardanocommunity/cardano-node
@@ -85,7 +84,6 @@ docker run -dit \
 -e CPU_CORES=2 \
 -p 3000:6000 \
 -p 12798:12798 \
--p 8091:8090 \
 -v $DB_DIR:/opt/cardano/cnode/db \
 -v /opt/cardano/$NODE_NAME/files:/opt/cardano/cnode/files \
 cardanocommunity/cardano-node
