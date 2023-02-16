@@ -26,7 +26,7 @@ printf "*  Type:      ${green} ${NODE_TYPE} ${clear}\n"
 printf "*  Pool Name: ${green} ${POOL_NAME} ${clear}\n\n"
 printf "${green} ************************************************* ${clear} \n"
 
-if [ $NETWORK != "mainnet" ] && [ $NETWORK != "preprod" ]; then
+if [ $NETWORK != "mainnet" ] && [ $NETWORK != "preprod" ] && [ $NETWORK != "preview" ]; then
     printf "supported networks: preprod | mainnet\n"
     exit 1
 fi
@@ -41,6 +41,31 @@ mkdir -pm777 nodes
 sudo docker stop $NODE_NAME
 sudo docker rm $NODE_NAME
 
+if [ $NETWORK == "preview" ] && [ "$NODE_TYPE" == "relay" ]; then
+
+printf "${green}[Info] Creating preprod relay node${clear}\n"
+
+
+cat > nodes/$NODE_NAME << EOF
+docker run -dit \
+--name $NODE_NAME \
+--security-opt=no-new-privileges \
+--cpus=3 \
+--net hodlNet \
+--ip 172.18.0.12 \
+-e NETWORK=preprod \
+-e TOPOLOGY="/opt/cardano/cnode/files/$NETWORK-topology.json" \
+-e CONFIG="/opt/cardano/cnode/files/$NETWORK-config.json" \
+-e CPU_CORES=2 \
+-p 5000:6000 \
+-p 11798:12798 \
+-p 8091:8090 \
+-v $DB_DIR:/opt/cardano/cnode/db \
+-v /opt/cardano/$NODE_NAME/files:/opt/cardano/cnode/files \
+cardanocommunity/cardano-node
+EOF
+
+fi
 
 if [ $NETWORK == "preprod" ] && [ "$NODE_TYPE" == "relay" ]; then
 
@@ -53,14 +78,13 @@ docker run -dit \
 --security-opt=no-new-privileges \
 --cpus=3 \
 --net hodlNet \
---ip 172.18.0.7 \
---entrypoint=/opt/cardano/cnode/files/entrypoint.sh \
+--ip 172.18.0.14 \
 -e NETWORK=preprod \
 -e TOPOLOGY="/opt/cardano/cnode/files/$NETWORK-topology.json" \
 -e CONFIG="/opt/cardano/cnode/files/$NETWORK-config.json" \
 -e CPU_CORES=2 \
 -p 3000:6000 \
--p 12799:12798 \
+-p 12798:12798 \
 -p 8091:8090 \
 -v $DB_DIR:/opt/cardano/cnode/db \
 -v /opt/cardano/$NODE_NAME/files:/opt/cardano/cnode/files \
@@ -81,15 +105,14 @@ docker run -dit \
 --memory=25g \
 --cpus=5 \
 --net hodlNet \
---ip 172.18.0.8 \
+--ip 172.18.0.16 \
 --entrypoint=/opt/cardano/cnode/files/entrypoint.sh \
 -e CPU_CORES=4 \
 -e NETWORK=mainnet \
 -e TOPOLOGY="/opt/cardano/cnode/files/$NETWORK-topology.json" \
 -e CONFIG="/opt/cardano/cnode/files/$NETWORK-config.json" \
--e HOSTADDR=0.0.0.0 \
 -p 6000:6000 \
--p 12798:12798 \
+-p 13798:12798 \
 -p 8090:8090 \
 -v $DB_DIR:/opt/cardano/cnode/db \
 -v /opt/cardano/$NODE_NAME/files:/opt/cardano/cnode/files \
@@ -98,7 +121,7 @@ EOF
 
 fi
 
-if [ $NETWORK == "mainnet" ] && [ "$NODE_TYPE" == "dev" ]; then
+if [ $NETWORK == "mainnet" ] && [ "$NODE_TYPE" == "wallet" ]; then
 
 printf "${green}[Info] Creating mainnet relay node${clear}\n"
 #install -d -m 0755 -o <your_user> -g <your_group> $DB_DIR
@@ -110,14 +133,14 @@ docker run -dit \
 --memory=25g \
 --cpus=5 \
 --net hodlNet \
---ip 172.18.0.9 \
+--ip 172.18.0.20 \
 --entrypoint=/opt/cardano/cnode/files/entrypoint.sh \
 -e NETWORK=mainnet \
 -e TOPOLOGY="/opt/cardano/cnode/files/$NETWORK-topology.json" \
 -e CONFIG="/opt/cardano/cnode/files/$NETWORK-config.json" \
 -e CPU_CORES=4 \
 -p 7000:6000 \
--p 12796:12798 \
+-p 14798:12798 \
 -v $DB_DIR:/opt/cardano/cnode/db \
 -v /opt/cardano/$NODE_NAME/files:/opt/cardano/cnode/files \
 cardanocommunity/cardano-node
