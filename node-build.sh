@@ -68,6 +68,34 @@ EOF
 
 fi
 
+if [ $NETWORK == "preview" ] && [ "$NODE_TYPE" == "core" ]; then
+
+printf "${green}[Info] Creating preprod relay node${clear}\n"
+
+
+cat > nodes/$NODE_NAME << EOF
+docker run -dit \
+--name $NODE_NAME \
+--security-opt=no-new-privileges \
+--cpus=3 \
+--memory=7g \
+--net hodlNet \
+--ip 172.18.0.13 \
+--entrypoint=bash \
+-e NETWORK=preview \
+-e TOPOLOGY="/opt/cardano/cnode/files/$NETWORK-topology.json" \
+-e CONFIG="/opt/cardano/cnode/files/$NETWORK-config.json" \
+-e CPU_CORES=2 \
+-p 5001:6000 \
+-p 11799:12798 \
+-v $DB_DIR:/opt/cardano/cnode/db \
+-v /opt/cardano/$NODE_NAME/files:/opt/cardano/cnode/files \
+cardanocommunity/cardano-node
+EOF
+
+fi
+
+
 if [ $NETWORK == "preprod" ] && [ "$NODE_TYPE" == "relay" ]; then
 
 printf "${green}[Info] Creating preprod relay node${clear}\n"
