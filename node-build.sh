@@ -53,7 +53,7 @@ docker run -dit \
 --cpus=3 \
 --net hodlNet \
 --ip 172.18.0.12 \
--e NETWORK=preprod \
+-e NETWORK=preview \
 -e TOPOLOGY="/opt/cardano/cnode/files/$NETWORK-topology.json" \
 -e CONFIG="/opt/cardano/cnode/files/$NETWORK-config.json" \
 -e CPU_CORES=2 \
