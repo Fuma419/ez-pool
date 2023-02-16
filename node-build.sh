@@ -51,8 +51,10 @@ docker run -dit \
 --name $NODE_NAME \
 --security-opt=no-new-privileges \
 --cpus=3 \
+--memory=7g \
 --net hodlNet \
 --ip 172.18.0.12 \
+--entrypoint=bash \
 -e NETWORK=preview \
 -e TOPOLOGY="/opt/cardano/cnode/files/$NETWORK-topology.json" \
 -e CONFIG="/opt/cardano/cnode/files/$NETWORK-config.json" \
@@ -76,14 +78,16 @@ docker run -dit \
 --name $NODE_NAME \
 --security-opt=no-new-privileges \
 --cpus=3 \
+--memory=7g \
 --net hodlNet \
 --ip 172.18.0.14 \
+--entrypoint=bash \
 -e NETWORK=preprod \
 -e TOPOLOGY="/opt/cardano/cnode/files/$NETWORK-topology.json" \
 -e CONFIG="/opt/cardano/cnode/files/$NETWORK-config.json" \
 -e CPU_CORES=2 \
 -p 3000:6000 \
--p 12798:12798 \
+-p 13798:12798 \
 -v $DB_DIR:/opt/cardano/cnode/db \
 -v /opt/cardano/$NODE_NAME/files:/opt/cardano/cnode/files \
 cardanocommunity/cardano-node
@@ -110,7 +114,7 @@ docker run -dit \
 -e TOPOLOGY="/opt/cardano/cnode/files/$NETWORK-topology.json" \
 -e CONFIG="/opt/cardano/cnode/files/$NETWORK-config.json" \
 -p 6000:6000 \
--p 13798:12798 \
+-p 12798:12798 \
 -p 8090:8090 \
 -v $DB_DIR:/opt/cardano/cnode/db \
 -v /opt/cardano/$NODE_NAME/files:/opt/cardano/cnode/files \
